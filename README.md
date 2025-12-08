@@ -1,8 +1,9 @@
 # Introduction de Projet
-Une Ontologie pour un Système Médical de Prédiagnostic.
+Une Ontologie pour un Système Médical de Prédiagnostic.<br>
 Problèmes visés :
 
 # Structure Global
+```text
 ├── Patient
 ├── SymptomTotal
 │   ├── Symptom
@@ -10,3 +11,5 @@ Problèmes visés :
 ├── DiseaseTotal
 ├── MedicalDepartment
 └── Drug
+```
+
