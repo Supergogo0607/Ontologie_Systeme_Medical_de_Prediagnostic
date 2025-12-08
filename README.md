@@ -8,7 +8,8 @@ Problèmes visés :
 ├── SymptomTotal
 │   ├── Symptom
 │   └── SymptomAttribut
-├── DiseaseTotal
+├── BodySystem
+├── Disease
 ├── MedicalDepartment
 └── Drug
 ```
