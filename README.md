@@ -8,8 +8,7 @@ Problèmes visés :
 # Dataset comme référence
 - Human Phenotype Ontology (HPO) : https://hpo.jax.org/app/download/ontology
 - Human Disease Ontology (DOID) : https://github.com/DiseaseOntology/HumanDiseaseOntology
-- Medical Subject Headings (MeSH) : https://nlmpubs.nlm.nih.gov/projects/
-mesh/MESH_FILES/asciimesh/
+- Medical Subject Headings (MeSH) : https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/asciimesh/
 - DrugBank Online : https://go.drugbank.com/releases/latest
 
 # Structure Global
