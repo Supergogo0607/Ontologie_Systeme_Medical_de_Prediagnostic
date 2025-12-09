@@ -1,4 +1,4 @@
-### Introduction de Projet
+# Introduction de Projet
 Une Ontologie pour un Système Médical de Prédiagnostic.
 Problèmes visés :
 1. Identiffer les affections potentielles dont ils pourraient souffrir.
