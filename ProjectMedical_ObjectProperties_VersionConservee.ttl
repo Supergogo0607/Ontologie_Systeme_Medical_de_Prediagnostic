@@ -1,0 +1,478 @@
+@prefix : <http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17/> .
+
+<http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#hasSymptom
+:hasSymptom rdf:type owl:ObjectProperty ;
+            rdfs:domain :Patient ;
+            rdfs:range :Symptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#hasSymptomAttribute
+:hasSymptomAttribute rdf:type owl:ObjectProperty ;
+                     rdfs:domain :Symptom ;
+                     rdfs:range :SymptomAttribute .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#indicatesDisease
+:indicatesDisease rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Symptom ;
+                  rdfs:range :Disease .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#isAssociatedWithSystem
+:isAssociatedWithSystem rdf:type owl:ObjectProperty ;
+                        rdfs:domain :Symptom ;
+                        rdfs:range :BodySystem .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#isTreatedByDepartment
+:isTreatedByDepartment rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Disease ;
+                       rdfs:range :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#recommendedDrugFor
+:recommendedDrugFor rdf:type owl:ObjectProperty ;
+                    rdfs:domain :Drug ;
+                    rdfs:range :Disease .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#AbdominalPain
+:AbdominalPain rdf:type owl:Class ;
+               rdfs:subClassOf :DigestiveSymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Acute
+:Acute rdf:type owl:Class ;
+       rdfs:subClassOf :SymptomOnset .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Analgesic
+:Analgesic rdf:type owl:Class ;
+           rdfs:subClassOf :Drug .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#AnginaPectoris
+:AnginaPectoris rdf:type owl:Class ;
+                rdfs:subClassOf :CardiovascularDisease ;
+                owl:disjointWith :MyocardialInfarction .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Antacid
+:Antacid rdf:type owl:Class ;
+         rdfs:subClassOf :Drug .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Antiplatelet
+:Antiplatelet rdf:type owl:Class ;
+              rdfs:subClassOf :Drug .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Antitussive
+:Antitussive rdf:type owl:Class ;
+             rdfs:subClassOf :Drug .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Aspirin
+:Aspirin rdf:type owl:Class ;
+         rdfs:subClassOf :Antiplatelet .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#BodySystem
+:BodySystem rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Burning
+:Burning rdf:type owl:Class ;
+         rdfs:subClassOf :PainCharacter .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Cardiology
+:Cardiology rdf:type owl:Class ;
+            rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#CardiovascularDisease
+:CardiovascularDisease rdf:type owl:Class ;
+                       rdfs:subClassOf :Disease .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#CardiovascularSymptom
+:CardiovascularSymptom rdf:type owl:Class ;
+                       rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#CardiovascularSystem
+:CardiovascularSystem rdf:type owl:Class ;
+                      rdfs:subClassOf :BodySystem .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#ChestPain
+:ChestPain rdf:type owl:Class ;
+           rdfs:subClassOf :CardiovascularSymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Chronic
+:Chronic rdf:type owl:Class ;
+         rdfs:subClassOf :SymptomOnset .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#CommonCold
+:CommonCold rdf:type owl:Class ;
+            rdfs:subClassOf :RespiratoryDisease ;
+            owl:disjointWith :Influenza .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Cough
+:Cough rdf:type owl:Class ;
+       rdfs:subClassOf :RespiratorySymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Cystitis
+:Cystitis rdf:type owl:Class ;
+          rdfs:subClassOf :OtherDisease .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Dermatology
+:Dermatology rdf:type owl:Class ;
+             rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Dextromethorphan
+:Dextromethorphan rdf:type owl:Class ;
+                  rdfs:subClassOf :Antitussive .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Diarrhea
+:Diarrhea rdf:type owl:Class ;
+          rdfs:subClassOf :DigestiveSymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#DigestiveDisease
+:DigestiveDisease rdf:type owl:Class ;
+                  rdfs:subClassOf :Disease .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#DigestiveSymptom
+:DigestiveSymptom rdf:type owl:Class ;
+                  rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#DigestiveSystem
+:DigestiveSystem rdf:type owl:Class ;
+                 rdfs:subClassOf :BodySystem .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Disease
+:Disease rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Dizziness
+:Dizziness rdf:type owl:Class ;
+           rdfs:subClassOf :NeurologicalSymptom ;
+           owl:disjointWith :Headache .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Drug
+:Drug rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Emergency
+:Emergency rdf:type owl:Class ;
+           rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Fatigue
+:Fatigue rdf:type owl:Class ;
+         rdfs:subClassOf :GeneralSymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Fever
+:Fever rdf:type owl:Class ;
+       rdfs:subClassOf :GeneralSymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Gastritis
+:Gastritis rdf:type owl:Class ;
+           rdfs:subClassOf :DigestiveDisease ;
+           owl:disjointWith :Gastroenteritis .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Gastroenteritis
+:Gastroenteritis rdf:type owl:Class ;
+                 rdfs:subClassOf :DigestiveDisease .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Gastroenterology
+:Gastroenterology rdf:type owl:Class ;
+                  rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#GeneralPractice
+:GeneralPractice rdf:type owl:Class ;
+                 rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#GeneralSymptom
+:GeneralSymptom rdf:type owl:Class ;
+                rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Headache
+:Headache rdf:type owl:Class ;
+          rdfs:subClassOf :NeurologicalSymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Influenza
+:Influenza rdf:type owl:Class ;
+           rdfs:subClassOf :RespiratoryDisease .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#MedicalDepartment
+:MedicalDepartment rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Mild
+:Mild rdf:type owl:Class ;
+      rdfs:subClassOf :SymptomSeverity .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Moderate
+:Moderate rdf:type owl:Class ;
+          rdfs:subClassOf :SymptomSeverity .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#MyocardialInfarction
+:MyocardialInfarction rdf:type owl:Class ;
+                      rdfs:subClassOf :CardiovascularDisease .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#NervousSystem
+:NervousSystem rdf:type owl:Class ;
+               rdfs:subClassOf :BodySystem .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#NeurologicalSymptom
+:NeurologicalSymptom rdf:type owl:Class ;
+                     rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Omeprazole
+:Omeprazole rdf:type owl:Class ;
+            rdfs:subClassOf :Antacid .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#OtherDisease
+:OtherDisease rdf:type owl:Class ;
+              rdfs:subClassOf :Disease .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#PainCharacter
+:PainCharacter rdf:type owl:Class ;
+               rdfs:subClassOf :SymptomAttribute .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Palpitation
+:Palpitation rdf:type owl:Class ;
+             rdfs:subClassOf :CardiovascularSymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Paracetamol
+:Paracetamol rdf:type owl:Class ;
+             rdfs:subClassOf :Analgesic .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Patient
+:Patient rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Pressure
+:Pressure rdf:type owl:Class ;
+          rdfs:subClassOf :PainCharacter .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#RespiratoryDisease
+:RespiratoryDisease rdf:type owl:Class ;
+                    rdfs:subClassOf :Disease .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#RespiratoryMedicine
+:RespiratoryMedicine rdf:type owl:Class ;
+                     rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#RespiratorySymptom
+:RespiratorySymptom rdf:type owl:Class ;
+                    rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#RespiratorySystem
+:RespiratorySystem rdf:type owl:Class ;
+                   rdfs:subClassOf :BodySystem .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Rhinorrhea
+:Rhinorrhea rdf:type owl:Class ;
+            rdfs:subClassOf :RespiratorySymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Severe
+:Severe rdf:type owl:Class ;
+        rdfs:subClassOf :SymptomSeverity .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#ShortnessOfBreath
+:ShortnessOfBreath rdf:type owl:Class ;
+                   rdfs:subClassOf :CardiovascularSymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Sneezing
+:Sneezing rdf:type owl:Class ;
+          rdfs:subClassOf :RespiratorySymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Stabbing
+:Stabbing rdf:type owl:Class ;
+          rdfs:subClassOf :PainCharacter .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Sweating
+:Sweating rdf:type owl:Class ;
+          rdfs:subClassOf :GeneralSymptom .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Symptom
+:Symptom rdf:type owl:Class ;
+         rdfs:subClassOf :SymptomTotal .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#SymptomAttribute
+:SymptomAttribute rdf:type owl:Class ;
+                  rdfs:subClassOf :SymptomTotal .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#SymptomOnset
+:SymptomOnset rdf:type owl:Class ;
+              rdfs:subClassOf :SymptomAttribute .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#SymptomSeverity
+:SymptomSeverity rdf:type owl:Class ;
+                 rdfs:subClassOf :SymptomAttribute .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#SymptomTotal
+:SymptomTotal rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/13850/ontologies/2025/11/untitled-ontology-17#Vomiting
+:Vomiting rdf:type owl:Class ;
+          rdfs:subClassOf :DigestiveSymptom .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :AbdominalPain
+                :Diarrhea
+                :Vomiting
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Acute
+                :Burning
+                :Chronic
+                :Mild
+                :Moderate
+                :PainCharacter
+                :Pressure
+                :Severe
+                :Stabbing
+                :SymptomOnset
+                :SymptomSeverity
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Analgesic
+                :Antacid
+                :Antiplatelet
+                :Antitussive
+                :Cardiology
+                :CardiovascularDisease
+                :CardiovascularSymptom
+                :Dermatology
+                :DigestiveDisease
+                :DigestiveSymptom
+                :Disease
+                :Drug
+                :Emergency
+                :Gastroenterology
+                :GeneralPractice
+                :GeneralSymptom
+                :MedicalDepartment
+                :NeurologicalSymptom
+                :OtherDisease
+                :Patient
+                :RespiratoryDisease
+                :RespiratoryMedicine
+                :RespiratorySymptom
+                :Symptom
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CardiovascularSystem
+                :DigestiveSystem
+                :NervousSystem
+                :RespiratorySystem
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :ChestPain
+                :Palpitation
+                :ShortnessOfBreath
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Cough
+                :Rhinorrhea
+                :Sneezing
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Fatigue
+                :Fever
+                :Sweating
+              )
+] .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
