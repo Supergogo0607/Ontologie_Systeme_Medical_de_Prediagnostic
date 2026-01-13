@@ -12,16 +12,27 @@ Problèmes visés :
 - DrugBank Online : https://go.drugbank.com/releases/latest
 
 # Structure Global
+Classes
 ```text
 ├── Patient
-├── SymptomTotal
-│   ├── Symptom
-│   └── SymptomAttribut
+├── Symptom
+├── SymptomAttribut
 ├── BodySystem
 ├── Disease
 ├── MedicalDepartment
 └── Drug
 ```
+
+Object Properties
+
+Data Properties
+
+# Aperçu pour les données
+63 Classes
+14 Object Properties
+5 Data Properties
+94 Individuals
+
 
 
 
