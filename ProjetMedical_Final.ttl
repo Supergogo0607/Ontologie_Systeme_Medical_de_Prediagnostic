@@ -1,0 +1,1599 @@
+@prefix : <http://www.semanticweb.org/medical-decision-support#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/medical-decision-support#> .
+
+<http://www.semanticweb.org/medical-decision-support> rdf:type owl:Ontology ;
+                                                       rdfs:comment "Ontology for medical diagnosis decision support system - Sorbonne University Project"@en ;
+                                                       rdfs:label "Medical Decision Support Ontology"@en .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/medical-decision-support#hasOnsetType
+:hasOnsetType rdf:type owl:ObjectProperty ;
+              rdfs:domain :Symptom ;
+              rdfs:range :SymptomOnset ;
+              rdfs:label "has onset type"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#hasPainType
+:hasPainType rdf:type owl:ObjectProperty ;
+             rdfs:domain :Symptom ;
+             rdfs:range :PainCharacter ;
+             rdfs:label "has pain type"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#hasSeverityLevel
+:hasSeverityLevel rdf:type owl:ObjectProperty ;
+                  rdfs:domain :Symptom ;
+                  rdfs:range :SymptomSeverity ;
+                  rdfs:label "has severity level"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#hasSymptom
+:hasSymptom rdf:type owl:ObjectProperty ;
+            owl:inverseOf :isSymptomOf ;
+            rdfs:domain :Patient ;
+            rdfs:range :Symptom ;
+            rdfs:label "has symptom"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#indicatesDisease
+:indicatesDisease rdf:type owl:ObjectProperty ;
+                  owl:inverseOf :isIndicatedBy ;
+                  rdfs:domain :Symptom ;
+                  rdfs:range :Disease ;
+                  rdfs:label "indicates disease"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#isAssociatedWithSystem
+:isAssociatedWithSystem rdf:type owl:ObjectProperty ;
+                        rdfs:domain :Symptom ;
+                        rdfs:range :BodySystem ;
+                        rdfs:label "is associated with system"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#isIndicatedBy
+:isIndicatedBy rdf:type owl:ObjectProperty ;
+               rdfs:domain :Disease ;
+               rdfs:range :Symptom ;
+               rdfs:label "is indicated by"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#isSymptomOf
+:isSymptomOf rdf:type owl:ObjectProperty ;
+             rdfs:domain :Symptom ;
+             rdfs:range :Patient ;
+             rdfs:label "is symptom of"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#isTreatedByDepartment
+:isTreatedByDepartment rdf:type owl:ObjectProperty ;
+                       owl:inverseOf :treatsDisease ;
+                       rdfs:domain :Disease ;
+                       rdfs:range :MedicalDepartment ;
+                       rdfs:label "is treated by department"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#possibleDisease
+:possibleDisease rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Patient ;
+                 rdfs:range :Disease ;
+                 owl:propertyChainAxiom ( :hasSymptom
+                                          :indicatesDisease
+                                        ) ;
+                 rdfs:comment "Inferred: Patient -> Symptom -> Disease"@en ;
+                 rdfs:label "possible disease"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#recommendedDepartment
+:recommendedDepartment rdf:type owl:ObjectProperty ;
+                       rdfs:domain :Patient ;
+                       rdfs:range :MedicalDepartment ;
+                       owl:propertyChainAxiom ( :possibleDisease
+                                                :isTreatedByDepartment
+                                              ) ;
+                       rdfs:comment "Inferred: Patient -> Disease -> Department"@en ;
+                       rdfs:label "recommended department"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#recommendedDrugFor
+:recommendedDrugFor rdf:type owl:ObjectProperty ;
+                    owl:inverseOf :treatsCondition ;
+                    rdfs:domain :Drug ;
+                    rdfs:range :Disease ;
+                    rdfs:label "recommended drug for"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#treatsCondition
+:treatsCondition rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Disease ;
+                 rdfs:range :Drug ;
+                 rdfs:label "treats condition"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#treatsDisease
+:treatsDisease rdf:type owl:ObjectProperty ;
+               rdfs:domain :MedicalDepartment ;
+               rdfs:range :Disease ;
+               rdfs:label "treats disease"@en .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/medical-decision-support#hasCertaintyScore
+:hasCertaintyScore rdf:type owl:DatatypeProperty ;
+                   rdfs:range xsd:float ;
+                   rdfs:label "has certainty score"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#hasDuration
+:hasDuration rdf:type owl:DatatypeProperty ;
+             rdfs:range xsd:integer ;
+             rdfs:label "has duration (days)"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patientAge
+:patientAge rdf:type owl:DatatypeProperty ;
+            rdfs:range xsd:integer ;
+            rdfs:label "patient age"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patientName
+:patientName rdf:type owl:DatatypeProperty ;
+             rdfs:range xsd:string ;
+             rdfs:label "patient name"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symptomDescription
+:symptomDescription rdf:type owl:DatatypeProperty ;
+                    rdfs:range xsd:string ;
+                    rdfs:label "symptom description"@en .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/medical-decision-support#AbdominalPain
+:AbdominalPain rdf:type owl:Class ;
+               rdfs:subClassOf :DigestiveSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Analgesic
+:Analgesic rdf:type owl:Class ;
+           rdfs:subClassOf :Drug .
+
+
+###  http://www.semanticweb.org/medical-decision-support#AnginaPectoris
+:AnginaPectoris rdf:type owl:Class ;
+                owl:equivalentClass [ owl:intersectionOf ( :CardiovascularDisease
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :isIndicatedBy ;
+                                                             owl:someValuesFrom [ owl:intersectionOf ( :ChestPain
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty :hasPainType ;
+                                                                                                         owl:hasValue :pain_Pressure
+                                                                                                       ]
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty :hasSeverityLevel ;
+                                                                                                         owl:hasValue :sev_Severe
+                                                                                                       ]
+                                                                                                     ) ;
+                                                                                  rdf:type owl:Class
+                                                                                ]
+                                                           ]
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :isIndicatedBy ;
+                                                             owl:someValuesFrom [ owl:intersectionOf ( :ShortnessOfBreath
+                                                                                                       [ rdf:type owl:Restriction ;
+                                                                                                         owl:onProperty :hasSeverityLevel ;
+                                                                                                         owl:hasValue :sev_Moderate
+                                                                                                       ]
+                                                                                                     ) ;
+                                                                                  rdf:type owl:Class
+                                                                                ]
+                                                           ]
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty :isTreatedByDepartment ;
+                                                             owl:hasValue :dept_Cardiology
+                                                           ]
+                                                         ) ;
+                                      rdf:type owl:Class
+                                    ] ;
+                rdfs:subClassOf :CardiovascularDisease ;
+                rdfs:label "Angina Pectoris"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Antacid
+:Antacid rdf:type owl:Class ;
+         rdfs:subClassOf :Drug .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Antibiotic
+:Antibiotic rdf:type owl:Class ;
+            rdfs:subClassOf :Drug .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Antidiarrheal
+:Antidiarrheal rdf:type owl:Class ;
+               rdfs:subClassOf :Drug ;
+               rdfs:label "Antidiarrheal"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Antiplatelet
+:Antiplatelet rdf:type owl:Class ;
+              rdfs:subClassOf :Drug .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Antitussive
+:Antitussive rdf:type owl:Class ;
+             rdfs:subClassOf :Drug .
+
+
+###  http://www.semanticweb.org/medical-decision-support#BodySystem
+:BodySystem rdf:type owl:Class ;
+            rdfs:label "Body System"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Cardiology
+:Cardiology rdf:type owl:Class ;
+            rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/medical-decision-support#CardiovascularDisease
+:CardiovascularDisease rdf:type owl:Class ;
+                       rdfs:subClassOf :Disease .
+
+
+###  http://www.semanticweb.org/medical-decision-support#CardiovascularSymptom
+:CardiovascularSymptom rdf:type owl:Class ;
+                       rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#CardiovascularSystem
+:CardiovascularSystem rdf:type owl:Class ;
+                      rdfs:subClassOf :BodySystem .
+
+
+###  http://www.semanticweb.org/medical-decision-support#ChestPain
+:ChestPain rdf:type owl:Class ;
+           rdfs:subClassOf :CardiovascularSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#CommonCold
+:CommonCold rdf:type owl:Class ;
+            owl:equivalentClass [ owl:intersectionOf ( :RespiratoryDisease
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :isIndicatedBy ;
+                                                         owl:someValuesFrom :Rhinorrhea
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :isIndicatedBy ;
+                                                         owl:someValuesFrom :Sneezing
+                                                       ]
+                                                       [ rdf:type owl:Restriction ;
+                                                         owl:onProperty :isTreatedByDepartment ;
+                                                         owl:hasValue :dept_GeneralPractice
+                                                       ]
+                                                     ) ;
+                                  rdf:type owl:Class
+                                ] ;
+            rdfs:subClassOf :RespiratoryDisease ;
+            rdfs:label "Common Cold"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Cough
+:Cough rdf:type owl:Class ;
+       rdfs:subClassOf :RespiratorySymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Cystitis
+:Cystitis rdf:type owl:Class ;
+          owl:equivalentClass [ owl:intersectionOf ( :OtherDisease
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :isIndicatedBy ;
+                                                       owl:someValuesFrom :Dysuria
+                                                     ]
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :isIndicatedBy ;
+                                                       owl:someValuesFrom :Frequency
+                                                     ]
+                                                     [ rdf:type owl:Restriction ;
+                                                       owl:onProperty :isTreatedByDepartment ;
+                                                       owl:hasValue :dept_Urology
+                                                     ]
+                                                   ) ;
+                                rdf:type owl:Class
+                              ] ;
+          rdfs:subClassOf :OtherDisease ;
+          rdfs:label "Cystitis"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Dermatology
+:Dermatology rdf:type owl:Class ;
+             rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Diarrhea
+:Diarrhea rdf:type owl:Class ;
+          rdfs:subClassOf :DigestiveSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#DigestiveDisease
+:DigestiveDisease rdf:type owl:Class ;
+                  rdfs:subClassOf :Disease .
+
+
+###  http://www.semanticweb.org/medical-decision-support#DigestiveSymptom
+:DigestiveSymptom rdf:type owl:Class ;
+                  rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#DigestiveSystem
+:DigestiveSystem rdf:type owl:Class ;
+                 rdfs:subClassOf :BodySystem .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Disease
+:Disease rdf:type owl:Class ;
+         rdfs:label "Disease"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Dizziness
+:Dizziness rdf:type owl:Class ;
+           rdfs:subClassOf :NeurologicalSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Drug
+:Drug rdf:type owl:Class ;
+      rdfs:label "Drug"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Dysuria
+:Dysuria rdf:type owl:Class ;
+         rdfs:subClassOf :UrinarySymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Emergency
+:Emergency rdf:type owl:Class ;
+           rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Fatigue
+:Fatigue rdf:type owl:Class ;
+         rdfs:subClassOf :GeneralSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Fever
+:Fever rdf:type owl:Class ;
+       rdfs:subClassOf :GeneralSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Frequency
+:Frequency rdf:type owl:Class ;
+           rdfs:subClassOf :UrinarySymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Gastritis
+:Gastritis rdf:type owl:Class ;
+           owl:equivalentClass [ owl:intersectionOf ( :DigestiveDisease
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :isIndicatedBy ;
+                                                        owl:someValuesFrom :Vomiting
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :isIndicatedBy ;
+                                                        owl:someValuesFrom [ owl:intersectionOf ( :AbdominalPain
+                                                                                                  [ rdf:type owl:Restriction ;
+                                                                                                    owl:onProperty :hasPainType ;
+                                                                                                    owl:hasValue :pain_Burning
+                                                                                                  ]
+                                                                                                ) ;
+                                                                             rdf:type owl:Class
+                                                                           ]
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :isTreatedByDepartment ;
+                                                        owl:hasValue :dept_Gastroenterology
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+           rdfs:subClassOf :DigestiveDisease ;
+           rdfs:label "Gastritis"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Gastroenteritis
+:Gastroenteritis rdf:type owl:Class ;
+                 owl:equivalentClass [ owl:intersectionOf ( :DigestiveDisease
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :isIndicatedBy ;
+                                                              owl:someValuesFrom :AbdominalPain
+                                                            ]
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :isIndicatedBy ;
+                                                              owl:someValuesFrom :Diarrhea
+                                                            ]
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :isIndicatedBy ;
+                                                              owl:someValuesFrom :Vomiting
+                                                            ]
+                                                            [ rdf:type owl:Restriction ;
+                                                              owl:onProperty :isTreatedByDepartment ;
+                                                              owl:hasValue :dept_Gastroenterology
+                                                            ]
+                                                          ) ;
+                                       rdf:type owl:Class
+                                     ] ;
+                 rdfs:subClassOf :DigestiveDisease ;
+                 rdfs:label "Gastroenteritis"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Gastroenterology
+:Gastroenterology rdf:type owl:Class ;
+                  rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/medical-decision-support#GeneralPractice
+:GeneralPractice rdf:type owl:Class ;
+                 rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/medical-decision-support#GeneralSymptom
+:GeneralSymptom rdf:type owl:Class ;
+                rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Headache
+:Headache rdf:type owl:Class ;
+          rdfs:subClassOf :NeurologicalSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Influenza
+:Influenza rdf:type owl:Class ;
+           owl:equivalentClass [ owl:intersectionOf ( :RespiratoryDisease
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :isIndicatedBy ;
+                                                        owl:someValuesFrom :Fatigue
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :isIndicatedBy ;
+                                                        owl:someValuesFrom [ owl:intersectionOf ( :Cough
+                                                                                                  [ rdf:type owl:Restriction ;
+                                                                                                    owl:onProperty :hasDuration ;
+                                                                                                    owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                                                                                         owl:onDatatype xsd:integer ;
+                                                                                                                         owl:withRestrictions ( [ xsd:minInclusive 3
+                                                                                                                                                ]
+                                                                                                                                              )
+                                                                                                                       ]
+                                                                                                  ]
+                                                                                                ) ;
+                                                                             rdf:type owl:Class
+                                                                           ]
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :isIndicatedBy ;
+                                                        owl:someValuesFrom [ owl:intersectionOf ( :Fever
+                                                                                                  [ rdf:type owl:Restriction ;
+                                                                                                    owl:onProperty :hasSeverityLevel ;
+                                                                                                    owl:hasValue :sev_Moderate
+                                                                                                  ]
+                                                                                                ) ;
+                                                                             rdf:type owl:Class
+                                                                           ]
+                                                      ]
+                                                      [ rdf:type owl:Restriction ;
+                                                        owl:onProperty :isTreatedByDepartment ;
+                                                        owl:hasValue :dept_GeneralPractice
+                                                      ]
+                                                    ) ;
+                                 rdf:type owl:Class
+                               ] ;
+           rdfs:subClassOf :RespiratoryDisease ;
+           rdfs:label "Influenza"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#MedicalDepartment
+:MedicalDepartment rdf:type owl:Class ;
+                   rdfs:label "Medical Department"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#MyocardialInfarction
+:MyocardialInfarction rdf:type owl:Class ;
+                      owl:equivalentClass [ owl:intersectionOf ( :CardiovascularDisease
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :isIndicatedBy ;
+                                                                   owl:someValuesFrom :Sweating
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :isIndicatedBy ;
+                                                                   owl:someValuesFrom [ owl:intersectionOf ( :ChestPain
+                                                                                                             [ rdf:type owl:Restriction ;
+                                                                                                               owl:onProperty :hasPainType ;
+                                                                                                               owl:hasValue :pain_Pressure
+                                                                                                             ]
+                                                                                                             [ rdf:type owl:Restriction ;
+                                                                                                               owl:onProperty :hasSeverityLevel ;
+                                                                                                               owl:hasValue :sev_Severe
+                                                                                                             ]
+                                                                                                           ) ;
+                                                                                        rdf:type owl:Class
+                                                                                      ]
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :isIndicatedBy ;
+                                                                   owl:someValuesFrom [ owl:intersectionOf ( :ShortnessOfBreath
+                                                                                                             [ rdf:type owl:Restriction ;
+                                                                                                               owl:onProperty :hasSeverityLevel ;
+                                                                                                               owl:hasValue :sev_Severe
+                                                                                                             ]
+                                                                                                           ) ;
+                                                                                        rdf:type owl:Class
+                                                                                      ]
+                                                                 ]
+                                                                 [ rdf:type owl:Restriction ;
+                                                                   owl:onProperty :isTreatedByDepartment ;
+                                                                   owl:hasValue :dept_Emergency
+                                                                 ]
+                                                               ) ;
+                                            rdf:type owl:Class
+                                          ] ;
+                      rdfs:subClassOf :CardiovascularDisease ;
+                      rdfs:label "Myocardial Infarction"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#NervousSystem
+:NervousSystem rdf:type owl:Class ;
+               rdfs:subClassOf :BodySystem .
+
+
+###  http://www.semanticweb.org/medical-decision-support#NeurologicalSymptom
+:NeurologicalSymptom rdf:type owl:Class ;
+                     rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#OtherDisease
+:OtherDisease rdf:type owl:Class ;
+              rdfs:subClassOf :Disease .
+
+
+###  http://www.semanticweb.org/medical-decision-support#PainCharacter
+:PainCharacter rdf:type owl:Class ;
+               rdfs:subClassOf :SymptomAttribute .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Palpitation
+:Palpitation rdf:type owl:Class ;
+             rdfs:subClassOf :CardiovascularSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Patient
+:Patient rdf:type owl:Class ;
+         rdfs:label "Patient"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#RespiratoryDisease
+:RespiratoryDisease rdf:type owl:Class ;
+                    rdfs:subClassOf :Disease .
+
+
+###  http://www.semanticweb.org/medical-decision-support#RespiratoryMedicine
+:RespiratoryMedicine rdf:type owl:Class ;
+                     rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/medical-decision-support#RespiratorySymptom
+:RespiratorySymptom rdf:type owl:Class ;
+                    rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#RespiratorySystem
+:RespiratorySystem rdf:type owl:Class ;
+                   rdfs:subClassOf :BodySystem .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Rhinorrhea
+:Rhinorrhea rdf:type owl:Class ;
+            rdfs:subClassOf :RespiratorySymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#SevereSymptom
+:SevereSymptom rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( :Symptom
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty :hasSeverityLevel ;
+                                                            owl:hasValue :sev_Severe
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:label "Severe Symptom"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#ShortnessOfBreath
+:ShortnessOfBreath rdf:type owl:Class ;
+                   rdfs:subClassOf :CardiovascularSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Sneezing
+:Sneezing rdf:type owl:Class ;
+          rdfs:subClassOf :RespiratorySymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Sweating
+:Sweating rdf:type owl:Class ;
+          rdfs:subClassOf :GeneralSymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Symptom
+:Symptom rdf:type owl:Class ;
+         rdfs:label "Symptom"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#SymptomAttribute
+:SymptomAttribute rdf:type owl:Class ;
+                  rdfs:label "Symptom Attribute"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#SymptomOnset
+:SymptomOnset rdf:type owl:Class ;
+              rdfs:subClassOf :SymptomAttribute .
+
+
+###  http://www.semanticweb.org/medical-decision-support#SymptomSeverity
+:SymptomSeverity rdf:type owl:Class ;
+                 rdfs:subClassOf :SymptomAttribute .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Urgency
+:Urgency rdf:type owl:Class ;
+         rdfs:subClassOf :UrinarySymptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#UrinarySymptom
+:UrinarySymptom rdf:type owl:Class ;
+                rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/medical-decision-support#UrinarySystem
+:UrinarySystem rdf:type owl:Class ;
+               rdfs:subClassOf :BodySystem .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Urology
+:Urology rdf:type owl:Class ;
+         rdfs:subClassOf :MedicalDepartment .
+
+
+###  http://www.semanticweb.org/medical-decision-support#Vomiting
+:Vomiting rdf:type owl:Class ;
+          rdfs:subClassOf :DigestiveSymptom .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/medical-decision-support#dept_Cardiology
+:dept_Cardiology rdf:type owl:NamedIndividual ,
+                          :Cardiology .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dept_Dermatology
+:dept_Dermatology rdf:type owl:NamedIndividual ,
+                           :Dermatology .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dept_Emergency
+:dept_Emergency rdf:type owl:NamedIndividual ,
+                         :Emergency .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dept_Gastroenterology
+:dept_Gastroenterology rdf:type owl:NamedIndividual ,
+                                :Gastroenterology .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dept_GeneralPractice
+:dept_GeneralPractice rdf:type owl:NamedIndividual ,
+                               :GeneralPractice .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dept_Urology
+:dept_Urology rdf:type owl:NamedIndividual ,
+                       :Urology .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dis_AnginaPectoris
+:dis_AnginaPectoris rdf:type owl:NamedIndividual ,
+                             :AnginaPectoris ;
+                    :isTreatedByDepartment :dept_Cardiology ;
+                    :hasCertaintyScore "0.9"^^xsd:float .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dis_CommonCold
+:dis_CommonCold rdf:type owl:NamedIndividual ,
+                         :CommonCold ;
+                :isTreatedByDepartment :dept_GeneralPractice ;
+                :hasCertaintyScore "0.6"^^xsd:float .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dis_Cystitis
+:dis_Cystitis rdf:type owl:NamedIndividual ,
+                       :Cystitis ;
+              :isTreatedByDepartment :dept_Urology ;
+              :hasCertaintyScore "0.7"^^xsd:float .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dis_Gastritis
+:dis_Gastritis rdf:type owl:NamedIndividual ,
+                        :Gastritis ;
+               :isTreatedByDepartment :dept_Gastroenterology ;
+               :hasCertaintyScore "0.65"^^xsd:float .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dis_Gastroenteritis
+:dis_Gastroenteritis rdf:type owl:NamedIndividual ,
+                              :Gastroenteritis ;
+                     :isTreatedByDepartment :dept_Gastroenterology ;
+                     :hasCertaintyScore "0.75"^^xsd:float .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dis_Influenza
+:dis_Influenza rdf:type owl:NamedIndividual ,
+                        :Influenza ;
+               :isTreatedByDepartment :dept_GeneralPractice ;
+               :hasCertaintyScore "0.85"^^xsd:float .
+
+
+###  http://www.semanticweb.org/medical-decision-support#dis_MyocardialInfarction
+:dis_MyocardialInfarction rdf:type owl:NamedIndividual ,
+                                   :MyocardialInfarction ;
+                          :isTreatedByDepartment :dept_Emergency ;
+                          :hasCertaintyScore "0.95"^^xsd:float .
+
+
+###  http://www.semanticweb.org/medical-decision-support#drug_Aspirin
+:drug_Aspirin rdf:type owl:NamedIndividual ,
+                       :Antiplatelet ;
+              :recommendedDrugFor :dis_AnginaPectoris ,
+                                  :dis_MyocardialInfarction .
+
+
+###  http://www.semanticweb.org/medical-decision-support#drug_Ciprofloxacin
+:drug_Ciprofloxacin rdf:type owl:NamedIndividual ,
+                             :Antibiotic ;
+                    :recommendedDrugFor :dis_Cystitis .
+
+
+###  http://www.semanticweb.org/medical-decision-support#drug_Dextromethorphan
+:drug_Dextromethorphan rdf:type owl:NamedIndividual ,
+                                :Antitussive ;
+                       :recommendedDrugFor :dis_CommonCold ,
+                                           :dis_Influenza .
+
+
+###  http://www.semanticweb.org/medical-decision-support#drug_Loperamide
+:drug_Loperamide rdf:type owl:NamedIndividual ,
+                          :Antidiarrheal ;
+                 :recommendedDrugFor :dis_Gastroenteritis .
+
+
+###  http://www.semanticweb.org/medical-decision-support#drug_Omeprazole
+:drug_Omeprazole rdf:type owl:NamedIndividual ,
+                          :Antacid ;
+                 :recommendedDrugFor :dis_Gastritis .
+
+
+###  http://www.semanticweb.org/medical-decision-support#drug_Paracetamol
+:drug_Paracetamol rdf:type owl:NamedIndividual ,
+                           :Analgesic ;
+                  :recommendedDrugFor :dis_CommonCold ,
+                                      :dis_Influenza .
+
+
+###  http://www.semanticweb.org/medical-decision-support#onset_Acute
+:onset_Acute rdf:type owl:NamedIndividual ,
+                      :SymptomOnset ;
+             owl:differentFrom :onset_Chronic ;
+             rdfs:label "Acute"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#onset_Chronic
+:onset_Chronic rdf:type owl:NamedIndividual ,
+                        :SymptomOnset ;
+               rdfs:label "Chronic"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#pain_Burning
+:pain_Burning rdf:type owl:NamedIndividual ,
+                       :PainCharacter ;
+              rdfs:label "Burning"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#pain_Pressure
+:pain_Pressure rdf:type owl:NamedIndividual ,
+                        :PainCharacter ;
+               rdfs:label "Pressure"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#pain_Stabbing
+:pain_Stabbing rdf:type owl:NamedIndividual ,
+                        :PainCharacter ;
+               rdfs:label "Stabbing"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_001
+:patient_001 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Cough_001 ,
+                         :symp_Fatigue_001 ,
+                         :symp_Fever_001 ;
+             :patientAge 34 ;
+             :patientName "Patient 001" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_002
+:patient_002 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Cough_002 ,
+                         :symp_Fever_002 ,
+                         :symp_Headache_001 ;
+             :patientAge 28 ;
+             :patientName "Patient 002" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_003
+:patient_003 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Cough_003 ,
+                         :symp_Fatigue_002 ,
+                         :symp_Fever_001 ;
+             :patientAge 45 ;
+             :patientName "Patient 003" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_004
+:patient_004 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Cough_001 ,
+                         :symp_Fever_003 ,
+                         :symp_Rhinorrhea_001 ;
+             :patientAge 19 ;
+             :patientName "Patient 004" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_005
+:patient_005 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Cough_001 ,
+                         :symp_Fatigue_001 ,
+                         :symp_Fever_001 ,
+                         :symp_Sweating_001 ;
+             :patientAge 51 ;
+             :patientName "Patient 005" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_006
+:patient_006 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Cough_002 ,
+                         :symp_Fatigue_002 ;
+             :patientAge 66 ;
+             :patientName "Patient 006" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_007
+:patient_007 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Fever_003 ,
+                         :symp_Headache_001 ;
+             :patientAge 97 ;
+             :patientName "Patient 007" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_008
+:patient_008 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Cough_003 ,
+                         :symp_Rhinorrhea_001 ,
+                         :symp_Sneezing_001 ;
+             :patientAge 98 ;
+             :patientName "Patient 008" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_009
+:patient_009 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_ChestPain_001 ,
+                         :symp_ShortnessOfBreath_001 ,
+                         :symp_Sweating_001 ;
+             :patientAge 11 ;
+             :patientName "Patient 011" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_010
+:patient_010 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_ChestPain_001 ,
+                         :symp_Palpitation_001 ,
+                         :symp_ShortnessOfBreath_002 ;
+             :patientAge 100 ;
+             :patientName "Patient 012" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_011
+:patient_011 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_ChestPain_002 ,
+                         :symp_Dizziness_001 ,
+                         :symp_ShortnessOfBreath_001 ;
+             :patientAge 4 ;
+             :patientName "Patient 013" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_012
+:patient_012 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_ChestPain_003 ,
+                         :symp_ShortnessOfBreath_002 ;
+             :patientAge 14 ;
+             :patientName "Patient 014" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_013
+:patient_013 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_ChestPain_002 ,
+                         :symp_Palpitation_001 ;
+             :patientAge 15 ;
+             :patientName "Patient 015" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_014
+:patient_014 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_ChestPain_003 ;
+             :patientAge 17 ;
+             :patientName "Patient 016" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_015
+:patient_015 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Dizziness_001 ,
+                         :symp_ShortnessOfBreath_001 ;
+             :patientAge 32 ;
+             :patientName "Patient 017" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_016
+:patient_016 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_ChestPain_001 ,
+                         :symp_Fever_002 ;
+             :patientAge 43 ;
+             :patientName "Patient 018" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_017
+:patient_017 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_AbdominalPain_001 ,
+                         :symp_Diarrhea_001 ,
+                         :symp_Vomiting_001 ;
+             :patientAge 30 ;
+             :patientName "Patient 021" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_018
+:patient_018 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_AbdominalPain_002 ,
+                         :symp_Diarrhea_002 ,
+                         :symp_Vomiting_002 ;
+             :patientAge 45 ;
+             :patientName "Patient 022" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_019
+:patient_019 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_AbdominalPain_001 ,
+                         :symp_Fever_002 ,
+                         :symp_Vomiting_001 ;
+             :patientAge 40 ;
+             :patientName "Patient 023" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_020
+:patient_020 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_AbdominalPain_003 ,
+                         :symp_Vomiting_001 ;
+             :patientAge 33 ;
+             :patientName "Patient 024" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_021
+:patient_021 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_AbdominalPain_002 ,
+                         :symp_Diarrhea_001 ;
+             :patientAge 65 ;
+             :patientName "Patient 025" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_022
+:patient_022 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_AbdominalPain_004 ;
+             :patientAge 55 ;
+             :patientName "Patient 026" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_023
+:patient_023 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Fatigue_001 ,
+                         :symp_Vomiting_001 ;
+             :patientAge 44 ;
+             :patientName "Patient 027" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_024
+:patient_024 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Diarrhea_002 ,
+                         :symp_Dizziness_001 ;
+             :patientAge 36 ;
+             :patientName "Patient 028" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_025
+:patient_025 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Dysuria_001 ,
+                         :symp_Fever_003 ,
+                         :symp_Frequency_001 ;
+             :patientAge 51 ;
+             :patientName "Patient 031" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_026
+:patient_026 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Dysuria_002 ,
+                         :symp_Frequency_002 ,
+                         :symp_Urgency_001 ;
+             :patientAge 37 ;
+             :patientName "Patient 032" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_027
+:patient_027 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Dysuria_002 ,
+                         :symp_Frequency_001 ;
+             :patientAge 88 ;
+             :patientName "Patient 033" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_028
+:patient_028 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Fever_002 ,
+                         :symp_Frequency_001 ;
+             :patientAge 68 ;
+             :patientName "Patient 034" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_029
+:patient_029 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_ChestPain_002 ,
+                         :symp_Fever_001 ,
+                         :symp_Frequency_001 ;
+             :patientAge 49 ;
+             :patientName "Patient 035" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#patient_030
+:patient_030 rdf:type owl:NamedIndividual ,
+                      :Patient ;
+             :hasSymptom :symp_Dizziness_001 ,
+                         :symp_Fatigue_001 ,
+                         :symp_Headache_001 ;
+             :patientAge 5 ;
+             :patientName "Patient 036" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#sev_Mild
+:sev_Mild rdf:type owl:NamedIndividual ,
+                   :SymptomSeverity ;
+          rdfs:label "Mild"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#sev_Moderate
+:sev_Moderate rdf:type owl:NamedIndividual ,
+                       :SymptomSeverity ;
+              rdfs:label "Moderate"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#sev_Severe
+:sev_Severe rdf:type owl:NamedIndividual ,
+                     :SymptomSeverity ;
+            rdfs:label "Severe"@en .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_AbdominalPain_001
+:symp_AbdominalPain_001 rdf:type owl:NamedIndividual ,
+                                 :AbdominalPain ;
+                        :hasOnsetType :onset_Acute ;
+                        :hasPainType :pain_Stabbing ;
+                        :hasSeverityLevel :sev_Severe ;
+                        :indicatesDisease :dis_Gastroenteritis ;
+                        :isAssociatedWithSystem :sys_Digestive ;
+                        :hasDuration 1 ;
+                        :symptomDescription "Severe cramping pain" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_AbdominalPain_002
+:symp_AbdominalPain_002 rdf:type owl:NamedIndividual ,
+                                 :AbdominalPain ;
+                        :hasOnsetType :onset_Acute ;
+                        :hasPainType :pain_Stabbing ;
+                        :hasSeverityLevel :sev_Moderate ;
+                        :indicatesDisease :dis_Gastroenteritis ;
+                        :isAssociatedWithSystem :sys_Digestive ;
+                        :hasDuration 2 ;
+                        :symptomDescription "Moderate abdominal cramps" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_AbdominalPain_003
+:symp_AbdominalPain_003 rdf:type owl:NamedIndividual ,
+                                 :AbdominalPain ;
+                        :hasOnsetType :onset_Chronic ;
+                        :hasSeverityLevel :sev_Mild ;
+                        :isAssociatedWithSystem :sys_Digestive ;
+                        :hasDuration 3 ;
+                        :symptomDescription "Mild diffuse abdominal pain" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_AbdominalPain_004
+:symp_AbdominalPain_004 rdf:type owl:NamedIndividual ,
+                                 :AbdominalPain ;
+                        :hasOnsetType :onset_Acute ;
+                        :hasPainType :pain_Burning ;
+                        :hasSeverityLevel :sev_Severe ;
+                        :indicatesDisease :dis_Gastritis ;
+                        :isAssociatedWithSystem :sys_Digestive ;
+                        :hasDuration 2 ;
+                        :symptomDescription "Severe burning epigastric pain" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_ChestPain_001
+:symp_ChestPain_001 rdf:type owl:NamedIndividual ,
+                             :ChestPain ;
+                    :hasOnsetType :onset_Acute ;
+                    :hasPainType :pain_Pressure ;
+                    :hasSeverityLevel :sev_Severe ;
+                    :indicatesDisease :dis_AnginaPectoris ,
+                                      :dis_MyocardialInfarction ;
+                    :isAssociatedWithSystem :sys_Cardiovascular ;
+                    :hasDuration 2 ;
+                    :symptomDescription "Severe pressure-like chest pain" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_ChestPain_002
+:symp_ChestPain_002 rdf:type owl:NamedIndividual ,
+                             :ChestPain ;
+                    :hasOnsetType :onset_Chronic ;
+                    :hasPainType :pain_Pressure ;
+                    :hasSeverityLevel :sev_Moderate ;
+                    :indicatesDisease :dis_AnginaPectoris ;
+                    :isAssociatedWithSystem :sys_Cardiovascular ;
+                    :hasDuration 3 ;
+                    :symptomDescription "Moderate chest pressure" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_ChestPain_003
+:symp_ChestPain_003 rdf:type owl:NamedIndividual ,
+                             :ChestPain ;
+                    :hasOnsetType :onset_Acute ;
+                    :hasSeverityLevel :sev_Mild ;
+                    :isAssociatedWithSystem :sys_Cardiovascular ;
+                    :hasDuration 1 ;
+                    :symptomDescription "Mild chest discomfort" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Cough_001
+:symp_Cough_001 rdf:type owl:NamedIndividual ,
+                         :Cough ;
+                :hasOnsetType :onset_Acute ;
+                :hasSeverityLevel :sev_Severe ;
+                :indicatesDisease :dis_Influenza ;
+                :isAssociatedWithSystem :sys_Respiratory ;
+                :hasDuration 5 ;
+                :symptomDescription "Severe dry cough" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Cough_002
+:symp_Cough_002 rdf:type owl:NamedIndividual ,
+                         :Cough ;
+                :hasOnsetType :onset_Acute ;
+                :hasSeverityLevel :sev_Moderate ;
+                :indicatesDisease :dis_CommonCold ,
+                                  :dis_Influenza ;
+                :isAssociatedWithSystem :sys_Respiratory ;
+                :hasDuration 4 ;
+                :symptomDescription "Productive cough with phlegm" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Cough_003
+:symp_Cough_003 rdf:type owl:NamedIndividual ,
+                         :Cough ;
+                :hasOnsetType :onset_Chronic ;
+                :hasSeverityLevel :sev_Mild ;
+                :indicatesDisease :dis_CommonCold ;
+                :isAssociatedWithSystem :sys_Respiratory ;
+                :hasDuration 3 ;
+                :symptomDescription "Persistent mild cough" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Diarrhea_001
+:symp_Diarrhea_001 rdf:type owl:NamedIndividual ,
+                            :Diarrhea ;
+                   :hasOnsetType :onset_Acute ;
+                   :hasSeverityLevel :sev_Moderate ;
+                   :indicatesDisease :dis_Gastroenteritis ;
+                   :isAssociatedWithSystem :sys_Digestive ;
+                   :hasDuration 2 ;
+                   :symptomDescription "Watery diarrhea" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Diarrhea_002
+:symp_Diarrhea_002 rdf:type owl:NamedIndividual ,
+                            :Diarrhea ;
+                   :hasOnsetType :onset_Acute ;
+                   :hasSeverityLevel :sev_Severe ;
+                   :indicatesDisease :dis_Gastroenteritis ;
+                   :isAssociatedWithSystem :sys_Digestive ;
+                   :hasDuration 3 ;
+                   :symptomDescription "Severe persistent diarrhea" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Dizziness_001
+:symp_Dizziness_001 rdf:type owl:NamedIndividual ,
+                             :Dizziness ;
+                    :hasOnsetType :onset_Acute ;
+                    :hasSeverityLevel :sev_Moderate ;
+                    :indicatesDisease :dis_AnginaPectoris ;
+                    :isAssociatedWithSystem :sys_Nervous ;
+                    :hasDuration 1 ;
+                    :symptomDescription "Vertigo and lightheadedness" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Dysuria_001
+:symp_Dysuria_001 rdf:type owl:NamedIndividual ,
+                           :Dysuria ;
+                  :hasOnsetType :onset_Acute ;
+                  :hasSeverityLevel :sev_Moderate ;
+                  :indicatesDisease :dis_Cystitis ;
+                  :isAssociatedWithSystem :sys_Urinary ;
+                  :hasDuration 2 ;
+                  :symptomDescription "Burning during urination" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Dysuria_002
+:symp_Dysuria_002 rdf:type owl:NamedIndividual ,
+                           :Dysuria ;
+                  :hasOnsetType :onset_Acute ;
+                  :hasSeverityLevel :sev_Severe ;
+                  :indicatesDisease :dis_Cystitis ;
+                  :isAssociatedWithSystem :sys_Urinary ;
+                  :hasDuration 3 ;
+                  :symptomDescription "Severe painful urination" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Fatigue_001
+:symp_Fatigue_001 rdf:type owl:NamedIndividual ,
+                           :Fatigue ;
+                  :hasOnsetType :onset_Acute ;
+                  :hasSeverityLevel :sev_Moderate ;
+                  :indicatesDisease :dis_Influenza ;
+                  :hasDuration 4 ;
+                  :symptomDescription "General fatigue and weakness" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Fatigue_002
+:symp_Fatigue_002 rdf:type owl:NamedIndividual ,
+                           :Fatigue ;
+                  :hasOnsetType :onset_Acute ;
+                  :hasSeverityLevel :sev_Severe ;
+                  :indicatesDisease :dis_Influenza ;
+                  :hasDuration 2 ;
+                  :symptomDescription "Severe exhaustion" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Fever_001
+:symp_Fever_001 rdf:type owl:NamedIndividual ,
+                         :Fever ;
+                :hasOnsetType :onset_Acute ;
+                :hasSeverityLevel :sev_Severe ;
+                :indicatesDisease :dis_Influenza ;
+                :hasDuration 3 ;
+                :symptomDescription "High fever 39C" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Fever_002
+:symp_Fever_002 rdf:type owl:NamedIndividual ,
+                         :Fever ;
+                :hasOnsetType :onset_Acute ;
+                :hasSeverityLevel :sev_Moderate ;
+                :indicatesDisease :dis_CommonCold ,
+                                  :dis_Influenza ;
+                :hasDuration 2 ;
+                :symptomDescription "Moderate fever 38C" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Fever_003
+:symp_Fever_003 rdf:type owl:NamedIndividual ,
+                         :Fever ;
+                :hasOnsetType :onset_Acute ;
+                :hasSeverityLevel :sev_Mild ;
+                :indicatesDisease :dis_Cystitis ;
+                :hasDuration 1 ;
+                :symptomDescription "Low-grade fever 37.5C" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Frequency_001
+:symp_Frequency_001 rdf:type owl:NamedIndividual ,
+                             :Frequency ;
+                    :hasOnsetType :onset_Acute ;
+                    :hasSeverityLevel :sev_Moderate ;
+                    :indicatesDisease :dis_Cystitis ;
+                    :isAssociatedWithSystem :sys_Urinary ;
+                    :hasDuration 3 ;
+                    :symptomDescription "Urinating every 30 minutes" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Frequency_002
+:symp_Frequency_002 rdf:type owl:NamedIndividual ,
+                             :Frequency ;
+                    :hasOnsetType :onset_Acute ;
+                    :hasSeverityLevel :sev_Severe ;
+                    :indicatesDisease :dis_Cystitis ;
+                    :isAssociatedWithSystem :sys_Urinary ;
+                    :hasDuration 4 ;
+                    :symptomDescription "Urinating every 15 minutes" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Headache_001
+:symp_Headache_001 rdf:type owl:NamedIndividual ,
+                            :Headache ;
+                   :hasOnsetType :onset_Acute ;
+                   :hasSeverityLevel :sev_Moderate ;
+                   :indicatesDisease :dis_Influenza ;
+                   :isAssociatedWithSystem :sys_Nervous ;
+                   :hasDuration 2 ;
+                   :symptomDescription "Throbbing headache" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Palpitation_001
+:symp_Palpitation_001 rdf:type owl:NamedIndividual ,
+                               :Palpitation ;
+                      :hasOnsetType :onset_Acute ;
+                      :hasSeverityLevel :sev_Moderate ;
+                      :indicatesDisease :dis_AnginaPectoris ;
+                      :isAssociatedWithSystem :sys_Cardiovascular ;
+                      :hasDuration 1 ;
+                      :symptomDescription "Heart palpitations" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Rhinorrhea_001
+:symp_Rhinorrhea_001 rdf:type owl:NamedIndividual ,
+                              :Rhinorrhea ;
+                     :hasOnsetType :onset_Acute ;
+                     :hasSeverityLevel :sev_Moderate ;
+                     :indicatesDisease :dis_CommonCold ;
+                     :isAssociatedWithSystem :sys_Respiratory ;
+                     :hasDuration 3 ;
+                     :symptomDescription "Runny nose with clear discharge" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_ShortnessOfBreath_001
+:symp_ShortnessOfBreath_001 rdf:type owl:NamedIndividual ,
+                                     :ShortnessOfBreath ;
+                            :hasOnsetType :onset_Acute ;
+                            :hasSeverityLevel :sev_Severe ;
+                            :indicatesDisease :dis_MyocardialInfarction ;
+                            :isAssociatedWithSystem :sys_Cardiovascular ;
+                            :hasDuration 1 ;
+                            :symptomDescription "Severe difficulty breathing" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_ShortnessOfBreath_002
+:symp_ShortnessOfBreath_002 rdf:type owl:NamedIndividual ,
+                                     :ShortnessOfBreath ;
+                            :hasOnsetType :onset_Acute ;
+                            :hasSeverityLevel :sev_Moderate ;
+                            :indicatesDisease :dis_AnginaPectoris ;
+                            :isAssociatedWithSystem :sys_Cardiovascular ;
+                            :hasDuration 2 ;
+                            :symptomDescription "Moderate breathing difficulty" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Sneezing_001
+:symp_Sneezing_001 rdf:type owl:NamedIndividual ,
+                            :Sneezing ;
+                   :hasOnsetType :onset_Acute ;
+                   :hasSeverityLevel :sev_Mild ;
+                   :indicatesDisease :dis_CommonCold ;
+                   :isAssociatedWithSystem :sys_Respiratory ;
+                   :hasDuration 2 ;
+                   :symptomDescription "Frequent sneezing" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Sweating_001
+:symp_Sweating_001 rdf:type owl:NamedIndividual ,
+                            :Sweating ;
+                   :hasOnsetType :onset_Acute ;
+                   :hasSeverityLevel :sev_Moderate ;
+                   :indicatesDisease :dis_MyocardialInfarction ;
+                   :isAssociatedWithSystem :sys_Cardiovascular ;
+                   :hasDuration 1 ;
+                   :symptomDescription "Profuse sweating" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Urgency_001
+:symp_Urgency_001 rdf:type owl:NamedIndividual ,
+                           :Urgency ;
+                  :hasOnsetType :onset_Acute ;
+                  :hasSeverityLevel :sev_Moderate ;
+                  :indicatesDisease :dis_Cystitis ;
+                  :isAssociatedWithSystem :sys_Urinary ;
+                  :hasDuration 2 ;
+                  :symptomDescription "Sudden urge to urinate" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Vomiting_001
+:symp_Vomiting_001 rdf:type owl:NamedIndividual ,
+                            :Vomiting ;
+                   :hasOnsetType :onset_Acute ;
+                   :hasSeverityLevel :sev_Severe ;
+                   :indicatesDisease :dis_Gastritis ,
+                                     :dis_Gastroenteritis ;
+                   :isAssociatedWithSystem :sys_Digestive ;
+                   :hasDuration 1 ;
+                   :symptomDescription "Repeated vomiting" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#symp_Vomiting_002
+:symp_Vomiting_002 rdf:type owl:NamedIndividual ,
+                            :Vomiting ;
+                   :hasOnsetType :onset_Acute ;
+                   :hasSeverityLevel :sev_Moderate ;
+                   :indicatesDisease :dis_Gastroenteritis ;
+                   :isAssociatedWithSystem :sys_Digestive ;
+                   :hasDuration 2 ;
+                   :symptomDescription "Occasional vomiting" .
+
+
+###  http://www.semanticweb.org/medical-decision-support#sys_Cardiovascular
+:sys_Cardiovascular rdf:type owl:NamedIndividual ,
+                             :CardiovascularSystem .
+
+
+###  http://www.semanticweb.org/medical-decision-support#sys_Digestive
+:sys_Digestive rdf:type owl:NamedIndividual ,
+                        :DigestiveSystem .
+
+
+###  http://www.semanticweb.org/medical-decision-support#sys_Nervous
+:sys_Nervous rdf:type owl:NamedIndividual ,
+                      :NervousSystem .
+
+
+###  http://www.semanticweb.org/medical-decision-support#sys_Respiratory
+:sys_Respiratory rdf:type owl:NamedIndividual ,
+                          :RespiratorySystem .
+
+
+###  http://www.semanticweb.org/medical-decision-support#sys_Urinary
+:sys_Urinary rdf:type owl:NamedIndividual ,
+                      :UrinarySystem .
+
+
+#################################################################
+#    General axioms
+#################################################################
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :BodySystem
+                :Disease
+                :Drug
+                :MedicalDepartment
+                :Patient
+                :Symptom
+                :SymptomAttribute
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Cardiology
+                :Dermatology
+                :Emergency
+                :Gastroenterology
+                :GeneralPractice
+                :RespiratoryMedicine
+                :Urology
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CardiovascularDisease
+                :DigestiveDisease
+                :OtherDisease
+                :RespiratoryDisease
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CardiovascularSymptom
+                :DigestiveSymptom
+                :GeneralSymptom
+                :NeurologicalSymptom
+                :RespiratorySymptom
+                :UrinarySymptom
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :CardiovascularSystem
+                :DigestiveSystem
+                :NervousSystem
+                :RespiratorySystem
+                :UrinarySystem
+              )
+] .
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :PainCharacter
+                :SymptomOnset
+                :SymptomSeverity
+              )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :pain_Burning
+                        :pain_Pressure
+                        :pain_Stabbing
+                      )
+] .
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( :sev_Mild
+                        :sev_Moderate
+                        :sev_Severe
+                      )
+] .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
